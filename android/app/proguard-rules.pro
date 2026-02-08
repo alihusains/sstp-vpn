@@ -1,0 +1,5 @@
+-keep class com.alihusains.sstp_vpn.** { *; }
+-keep class io.flutter.** { *; }
+-keep class com.github.kittinunf.fuel.** { *; }
+-dontwarn kotlinx.coroutines.**
+-keep class kotlinx.coroutines.** { *; }

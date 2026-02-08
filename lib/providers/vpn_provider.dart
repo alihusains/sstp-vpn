@@ -32,6 +32,7 @@ class VpnProvider with ChangeNotifier {
 
   Future<void> _init() async {
     _autoReconnect = await _storageService.getAutoReconnect();
+    await _vpnService.initialize(); // Initialize sstp_flutter
     _listenToStatusChanges();
     _listenToConnectivity();
     
