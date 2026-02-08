@@ -19,7 +19,7 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '1.0.0'
 }
 
 android {
@@ -28,12 +28,12 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -46,13 +46,29 @@ android {
         targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {
         release {
             minifyEnabled false
             shrinkResources false
-            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/DEPENDENCIES', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt']
         }
     }
 }
