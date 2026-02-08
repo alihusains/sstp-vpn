@@ -27,15 +27,6 @@
             </intent-filter>
         </activity>
         
-        <service
-            android:name=".SstpVpnService"
-            android:permission="android.permission.BIND_VPN_SERVICE"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.net.VpnService" />
-            </intent-filter>
-        </service>
-        
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

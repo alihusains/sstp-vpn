@@ -26,6 +26,9 @@ dependencies:
   # Permissions
   permission_handler: ^11.2.0
   
+  # VPN
+  sstp_flutter: ^1.2.0
+  
   # UI
   cupertino_icons: ^1.0.6
 
