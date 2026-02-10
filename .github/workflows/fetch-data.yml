@@ -27,8 +27,8 @@ jobs:
           # Safer filename without colons (optional):
           # TIMESTAMP=$(date -u +"%Y-%m-%dT%H-%M-%SZ")
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          OUT_FILE="iphone/vpngate_iphone_${TIMESTAMP}.txt"
-          LATEST_FILE="iphone/vpngate_iphone_latest.txt"
+          OUT_FILE="iphone/servers.csv"
+          LATEST_FILE="iphone/latest"
           # Fetch the data (follow redirects, fail on HTTP error)
           curl -fsSL "$URL" -o "$OUT_FILE"
           # Also update a stable "latest" file (overwrite)
