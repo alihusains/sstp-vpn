@@ -1,0 +1,50 @@
+name: Fetch Data from APPI
+
+on:
+  schedule:
+
+# Runs at minute 0 of every hour (every 60 minutes)
+- cron: '0 * * * *'
+  
+
+workflow_dispatch:
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+
+  - name: Checkout repository
+    uses: actions/checkout@v4
+    with:
+      persist-credentials: true
+
+  - name: Ensure iphone directory exists
+    run: |
+      mkdir -p iphone
+
+  - name: Fetch VPNGate iPhone API
+    id: fetch
+    run: |
+      set -e
+      URL="http://www.vpngate.net/api/iphone/"
+      TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+      OUT_FILE="iphone/vpngate_iphone_${TIMESTAMP}.txt"
+      LATEST_FILE="iphone/vpngate_iphone_latest.txt"
+      # Fetch the data (follow redirects, fail on HTTP error)
+      curl -fsSL "$URL" -o "$OUT_FILE"
+      # Also update a stable "latest" file (overwrite)
+      cp "$OUT_FILE" "$LATEST_FILE"
+      echo "out_file=$OUT_FILE" >> "$GITHUB_OUTPUT"
+
+  - name: Commit and push changes
+    run: |
+      git config user.name "github-actions[bot]"
+      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      git add iphone/
+      # Only commit if there are changes
+      if ! git diff --cached --quiet; then
+        git commit -m "chore: update vpngate iphone data ($TIMESTAMP)"
+        git push
+      else
+        echo "No changes to commit"
+      fi
